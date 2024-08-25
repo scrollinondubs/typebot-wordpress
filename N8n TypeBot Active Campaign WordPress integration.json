@@ -1,0 +1,384 @@
+{
+  "name": "ActiveCampaign TypeBot integration for blog post comments",
+  "nodes": [
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID_HERE",
+          "mode": "list",
+          "cachedResultName": "Newsletter Leads ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID_HERE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID_HERE/edit#gid=0"
+        },
+        "event": "rowAdded",
+        "options": {}
+      },
+      "id": "9374680e-334c-4fa6-819d-81bca0bff43f",
+      "name": "On new lead",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        880,
+        380
+      ],
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "ZiPuJUaQvdTIdwmi",
+          "name": "Google Sheets Trigger account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "email": "={{ $json.Email }}",
+        "updateIfExists": true,
+        "additionalFields": {
+          "fieldValues": {
+            "property": [
+              {
+                "field": "149",
+                "value": "={{ $json.PostURI }}"
+              },
+              {
+                "field": "150",
+                "value": "={{ $json.PostCommentary }}"
+              },
+              {
+                "field": "152",
+                "value": "={{ $json.HTTP_REFERER }}"
+              },
+              {
+                "field": "137",
+                "value": "={{ $json.utm_source }}"
+              },
+              {
+                "field": "138",
+                "value": "={{ $json.utm_campaign }}"
+              },
+              {
+                "field": "139",
+                "value": "={{ $json.utm_medium }}"
+              },
+              {
+                "field": "140",
+                "value": "={{ $json.utm_keyword }}"
+              },
+              {
+                "field": "141",
+                "value": "={{ $json.utm_content }}"
+              }
+            ]
+          },
+          "firstName": "={{ $json.Name }}"
+        }
+      },
+      "id": "7e053368-9c8b-4071-82e5-ce22f05425ed",
+      "name": "Add lead to AC",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1300,
+        380
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "kXAst1WnjAR1wQYB",
+          "name": "ActiveCampaign account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "getAll",
+        "limit": 1,
+        "additionalFields": {
+          "email": "={{ $json.Email }}"
+        }
+      },
+      "id": "32880a87-14f3-43f1-8198-f799c1b0a524",
+      "name": "ActiveCampaign",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1220,
+        620
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "kXAst1WnjAR1wQYB",
+          "name": "ActiveCampaign account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyMinute"
+            }
+          ]
+        },
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID_HERE",
+          "mode": "list",
+          "cachedResultName": "Newsletter Leads ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID_HERE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID_HERE/edit#gid=0"
+        },
+        "event": "rowUpdate",
+        "options": {}
+      },
+      "id": "25afd66d-e1ff-4273-a1aa-4313cde08bb5",
+      "name": "On additional info added",
+      "type": "n8n-nodes-base.googleSheetsTrigger",
+      "typeVersion": 1,
+      "position": [
+        1000,
+        620
+      ],
+      "credentials": {
+        "googleSheetsTriggerOAuth2Api": {
+          "id": "ZiPuJUaQvdTIdwmi",
+          "name": "Google Sheets Trigger account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "keep": "lastItems"
+      },
+      "id": "e795cc03-89b1-4c88-a11a-3b2682a3f0b8",
+      "name": "Limit",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1100,
+        380
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "contactId": "={{ $json.id }}",
+        "updateFields": {
+          "fieldValues": {
+            "property": [
+              {
+                "field": "143",
+                "value": "={{ $('On additional info added').item.json.OrgType }}"
+              },
+              {
+                "field": "144",
+                "value": "={{ $('On additional info added').item.json.OrgName }}"
+              },
+              {
+                "field": "145",
+                "value": "={{ $('On additional info added').item.json.Role }}"
+              },
+              {
+                "field": "148",
+                "value": "={{ $('On additional info added').item.json.RequestedTopics }}"
+              },
+              {
+                "field": "147",
+                "value": "={{ $('On additional info added').item.json.SocialMedia }}"
+              },
+              {
+                "field": "153",
+                "value": "={{ $('On additional info added').item.json.RootPain }}"
+              }
+            ]
+          }
+        }
+      },
+      "id": "438cf543-91a7-4a31-ad22-b2d34eca1dfd",
+      "name": "Append new info",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1440,
+        620
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "kXAst1WnjAR1wQYB",
+          "name": "ActiveCampaign account"
+        }
+      },
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "resource": "contactTag",
+        "tagId": "21",
+        "contactId": "={{ $('Add lead to AC').item.json.id }}"
+      },
+      "id": "1e9ec41c-6517-43b3-9f03-25ca9fc8a424",
+      "name": "Add Tags",
+      "type": "n8n-nodes-base.activeCampaign",
+      "typeVersion": 1,
+      "position": [
+        1720,
+        380
+      ],
+      "credentials": {
+        "activeCampaignApi": {
+          "id": "kXAst1WnjAR1wQYB",
+          "name": "ActiveCampaign account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://yourblogURL.com/wp-json/wp/v2/comments",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "post",
+              "value": "={{ $('On new lead').item.json.POST_ID }}"
+            },
+            {
+              "name": "author_name",
+              "value": "={{ $('On new lead').item.json.Name }}"
+            },
+            {
+              "name": "author_email",
+              "value": "={{ $('On new lead').item.json.Email }}"
+            },
+            {
+              "name": "content",
+              "value": "={{ $('On new lead').item.json.PostCommentary }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "da90be9d-caf9-450b-8496-38470d038bae",
+      "name": "Add comment to WP",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1520,
+        380
+      ],
+      "credentials": {
+        "httpBasicAuth": {
+          "id": "Dz2yO1HByIrAuyPh",
+          "name": "WP site n8n basic auth"
+        },
+        "httpHeaderAuth": {
+          "id": "6EDHbwtuFuhbWuJZ",
+          "name": "JWT header auth"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On new lead": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On additional info added": {
+      "main": [
+        [
+          {
+            "node": "ActiveCampaign",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ActiveCampaign": {
+      "main": [
+        [
+          {
+            "node": "Append new info",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Add lead to AC",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add lead to AC": {
+      "main": [
+        [
+          {
+            "node": "Add comment to WP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Add comment to WP": {
+      "main": [
+        [
+          {
+            "node": "Add Tags",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "3146f789-00f0-439c-9c6d-01eb16b86f8f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "12dbfdf40d5d5b4744d94ba1473f8b1a381daa2a54b088fc280453eb36ff74eb"
+  },
+  "id": "8cFfOZU1Drj8Q95v",
+  "tags": []
+}
