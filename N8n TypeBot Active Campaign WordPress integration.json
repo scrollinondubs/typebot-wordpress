@@ -122,8 +122,7 @@
           "id": "kXAst1WnjAR1wQYB",
           "name": "ActiveCampaign account"
         }
-      },
-      "disabled": true
+      }
     },
     {
       "parameters": {
@@ -164,8 +163,7 @@
           "id": "ZiPuJUaQvdTIdwmi",
           "name": "Google Sheets Trigger account"
         }
-      },
-      "disabled": true
+      }
     },
     {
       "parameters": {
@@ -228,8 +226,7 @@
           "id": "kXAst1WnjAR1wQYB",
           "name": "ActiveCampaign account"
         }
-      },
-      "disabled": true
+      }
     },
     {
       "parameters": {
@@ -255,7 +252,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "https://yourblogURL.com/wp-json/wp/v2/comments",
+        "url": "https://YOUR_BLOG_DOMAIN_HERE/wp-json/wp/v2/comments",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendBody": true,
@@ -292,7 +289,7 @@
       "credentials": {
         "httpBasicAuth": {
           "id": "Dz2yO1HByIrAuyPh",
-          "name": "WP site n8n basic auth"
+          "name": "Stone Soup WP site n8n basic auth"
         },
         "httpHeaderAuth": {
           "id": "6EDHbwtuFuhbWuJZ",
@@ -374,7 +371,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "3146f789-00f0-439c-9c6d-01eb16b86f8f",
+  "versionId": "77fb663c-4bc6-418e-8f72-00b427cc1d46",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "12dbfdf40d5d5b4744d94ba1473f8b1a381daa2a54b088fc280453eb36ff74eb"
