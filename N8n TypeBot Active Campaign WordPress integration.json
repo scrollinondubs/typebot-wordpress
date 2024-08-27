@@ -91,7 +91,7 @@
       "type": "n8n-nodes-base.activeCampaign",
       "typeVersion": 1,
       "position": [
-        1300,
+        1080,
         380
       ],
       "credentials": {
@@ -167,19 +167,6 @@
     },
     {
       "parameters": {
-        "keep": "lastItems"
-      },
-      "id": "e795cc03-89b1-4c88-a11a-3b2682a3f0b8",
-      "name": "Limit",
-      "type": "n8n-nodes-base.limit",
-      "typeVersion": 1,
-      "position": [
-        1100,
-        380
-      ]
-    },
-    {
-      "parameters": {
         "operation": "update",
         "contactId": "={{ $json.id }}",
         "updateFields": {
@@ -239,7 +226,7 @@
       "type": "n8n-nodes-base.activeCampaign",
       "typeVersion": 1,
       "position": [
-        1720,
+        1300,
         380
       ],
       "credentials": {
@@ -283,8 +270,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        1520,
-        380
+        1760,
+        300
       ],
       "credentials": {
         "httpBasicAuth": {
@@ -296,6 +283,39 @@
           "name": "JWT header auth"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "fca1154b-d6a9-4a9d-b7e0-bdf7a7988bc1",
+              "leftValue": "={{ $('On new lead').item.json.CommentVisibility }}",
+              "rightValue": "Public",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "14680dcf-0e22-4ce7-bff7-017cfb721ce1",
+      "name": "If Public Comment",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1500,
+        380
+      ]
     }
   ],
   "pinData": {},
@@ -304,7 +324,7 @@
       "main": [
         [
           {
-            "node": "Limit",
+            "node": "Add lead to AC",
             "type": "main",
             "index": 0
           }
@@ -333,33 +353,33 @@
         ]
       ]
     },
-    "Limit": {
-      "main": [
-        [
-          {
-            "node": "Add lead to AC",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Add lead to AC": {
       "main": [
         [
           {
-            "node": "Add comment to WP",
+            "node": "Add Tags",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Add comment to WP": {
+    "Add Tags": {
       "main": [
         [
           {
-            "node": "Add Tags",
+            "node": "If Public Comment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Public Comment": {
+      "main": [
+        [
+          {
+            "node": "Add comment to WP",
             "type": "main",
             "index": 0
           }
@@ -371,7 +391,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "77fb663c-4bc6-418e-8f72-00b427cc1d46",
+  "versionId": "e3b2f4f2-8c23-4275-9baa-1b04bf0d83c1",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "12dbfdf40d5d5b4744d94ba1473f8b1a381daa2a54b088fc280453eb36ff74eb"
